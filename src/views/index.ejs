@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI HR SEARCH</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/custom-css/css/adminlte.min.css">
+    <link rel="stylesheet" href="/style.css">
+    
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+</head>
+
+
+
+
+<body class="hold-transition sidebar-mini">
+    <nav class="navbar navbar-light bg-light static-top">
+        <div class="container">
+            <div class="navbar-brand" style="width:100%">
+                <!-- <img src="/Resume-Sending-Logo.png" style="width:100px"/> -->
+                <div class="page-header"
+                    style="width: 100%;display: flex;justify-content: space-between;    align-items: center;">
+                    <a href="/" style="text-decoration:none;cursor:pointer">
+                        <h1 style="color:#00398e">AI HR SEARCH</h1>
+                    </a>
+                    <div class="header_search">
+                        <input type="text" name="" class="search-input" placeholder="Search Within <%=total_count%> Jobs">
+                        <span class="hsearchicon">
+                            <button type="button" onclick="searchThis()"><i class="fas fa-search"></i></button>
+                        </span>
+                    </div>
+                    <a href="/logout" style="font-size:15px! important">
+                        Logout
+                    </a>
+                </div>
+            </div>
+            <div class="resselect_box">
+                <!-- <a class="selectbox_innerres">
+                    <span>Educational</span>
+                    <i class="fa fa-times"></i>
+                </a> -->
+            </div>
+        </div>
+    </nav>
+    <div class="wrapper">
+        <section class="content job__list__wrap pb-5 job_searchh">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="filter_partts">
+                            <div class="filter_Result">
+                                <h2>Filter results by</h2>
+                            </div>
+                            <div class="filter_inner">
+                                <div class="place_div">
+                                    <div class="place_inner">
+                                        Search By
+                                        <!-- <div class="place_search">
+                                            <input type="text" class="plsearch" placeholder="Search">
+                                            <span class="searchicon">
+                                                <button type="submit"><i class="fas fa-search"></i></button>
+                                            </span>
+                                        </div> -->
+                                    </div>
+                                    <div class="place_inner_text">
+                                        <ul class="place-lists">
+                                            <% 
+                                            var found = {};
+                                            var job_board_name = d=>d.job_board_name;
+                                            job_boards.forEach(d => {
+                                                found[job_board_name(d)] = d;
+                                            });
+                                            var data =  Object.keys(found).map(key => found[key]);
+                                            data.forEach((details, i)=> {
+                                            %>
+                                                <li>
+                                                    <div class="form-group">
+                                                        <input type="checkbox" class="jobboard-<%= data[i].id%>" id="jobboard<%=i%>" placeholder="flt_jobboard" value="<%= JSON.stringify(data[i])%>">
+                                                        <label for="jobboard<%=i%>"><%=data[i].job_board_name%></label>
+                                                    </div>
+                                                </li>  
+                                                <% });%>
+                                        </ul>
+                                        <!-- <div class="create1">
+                                            <div class="create_inner">
+                                                <div class="heading_cross">
+                                                    <h3>Salery</h3>
+                                                    <span class="crossicon1"><i class="fa fa-times"></i></span>
+                                                </div>
+                                                <ul>
+                                                    <li>
+                                                        <div class="form-group">
+                                                            <input type="checkbox" id="html19">
+                                                            <label for="html19">0-3 lakhs(13)</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="form-group">
+                                                            <input type="checkbox" id="html29">
+                                                            <label for="html29">0-3 lakhs(13)</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="form-group">
+                                                            <input type="checkbox" id="html39">
+                                                            <label for="html39">0-3 lakhs(13)</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="form-group">
+                                                            <input type="checkbox" id="html49">
+                                                            <label for="html49">0-3 lakhs(13)</label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                                <div class="place_div">
+                                    <div class="place_inner">
+                                        Place
+                                        <!-- <div class="place_search">
+                                            <input type="text" class="plsearch" placeholder="Search">
+                                            <span class="searchicon">
+                                                <button type="submit"><i class="fas fa-search"></i></button>
+                                            </span>
+                                        </div> -->
+                                    </div>
+                                    <div class="place_inner_text">
+                                        <ul class="place-lists">
+                                            <% 
+                                            var found = {};
+                                            var place_name = d=>d.place_name;
+                                            results.forEach(d => {
+                                                found[place_name(d)] = d;
+                                            });
+                                            var data =  Object.keys(found).map(key => found[key]);
+                                            data.forEach((details, i)=> {
+                                                %>
+                                                <li>
+                                                    <div class="form-group">
+                                                        <input type="checkbox" class="place-<%= data[i].id%>" id="html<%=i%>" placeholder="flt_place" value="<%= JSON.stringify(details)%>">
+                                                        <label for="html<%=i%>"><%= details.place_name%></label>
+                                                    </div>
+                                                </li>
+                                            <% });%>                                            
+                                            <!-- <li class="last_li"><a href="javascript:void(0)"
+                                                    class="more_but1">More(3)</a>
+                                            </li> -->
+                                        </ul>
+                                        <div class="create1">
+                                            <div class="create_inner">
+                                                <div class="heading_cross">
+                                                    <h3>Salery</h3>
+                                                    <span class="crossicon1"><i class="fa fa-times"></i></span>
+                                                </div>
+                                                <ul>
+                                                    <li>
+                                                        <div class="form-group">
+                                                            <input type="checkbox" id="html19">
+                                                            <label for="html19">0-3 lakhs(13)</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="form-group">
+                                                            <input type="checkbox" id="html29">
+                                                            <label for="html29">0-3 lakhs(13)</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="form-group">
+                                                            <input type="checkbox" id="html39">
+                                                            <label for="html39">0-3 lakhs(13)</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="form-group">
+                                                            <input type="checkbox" id="html49">
+                                                            <label for="html49">0-3 lakhs(13)</label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="place_div">
+                                    <div class="place_inner">Job Type
+                                    </div>
+                                    <div class="place_inner_text">
+                                        <ul style="list-style: none;">
+                                            
+                                            <li>
+                                                <div class="form-group">
+                                                    <input type="checkbox" class="job-type-1" id="jobhtml-1"  placeholder="flt_job_type" value='{"id":"1","value":"Full Time"}'>
+                                                    <label for="jobhtml-1">Full Time</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-group">
+                                                    <input type="checkbox" class="job-type-2" id="jobhtml-2"  placeholder="flt_job_type" value='{"id":"2","value":"Contract"}'>
+                                                    <label for="jobhtml-2">Contract</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-group">
+                                                    <input type="checkbox" class="job-type-3" id="jobhtml-3"  placeholder="flt_job_type" value='{"id":"3","value":"Part Time"}'>
+                                                    <label for="jobhtml-3">Part Time</label>
+                                                </div>
+                                            </li>
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- <div class="place_div">
+                                    <div class="place_inner">Urgent Hiring
+                                    </div>
+                                    <div class="place_inner_text">
+                                        <ul>
+                                            <li>
+                                                <div class="form-group">
+                                                    <input type="checkbox" id="html8">
+                                                    <label for="html8">Yes</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-group">
+                                                    <input type="checkbox" id="html9">
+                                                    <label for="html9">No</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="" id="indeed-job">
+                            <% 
+                            results.forEach((details, i)=> {
+                                let urgent_hiring = "Yes";
+                                if (details.urgent_hiring === "0") {
+                                    urgent_hiring = "No";
+                                }
+                            %>
+                                <div class="card mb-4 job__item">
+                                    <div class="card-header">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-8">
+                                                <h5><strong>Job Title : <a
+                                                            href="/matched-profile/<%=encodeURIComponent(details.id)%>">
+                                                            <%= details.job_title%>
+                                                        </a></strong>
+                                                </h5>
+                                                <h6><strong>Company : <%= details.company_name%></strong></h6>
+                                            </div>
+                                            <div class="col-md-4 text-right">
+                                                <a href="/matched-profile/<%=encodeURIComponent(details.id)%>"
+                                                    class="btn btn-info btn-rounded btn-sm">Matched Profile</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <article>
+                                            
+                                                <%- details.job_description%>
+                                            
+                                        </article>
+                                    </div>
+                                    <div class="card-footer job__item__footer">
+                                        <span class="job__tag">Place : <a href="#">
+                                                <%= details.place_name%>
+                                            </a></span>
+                                        <span class="job__tag">Job type : <a href="#">
+                                                <%= details.job_type%>
+                                            </a></span>
+                                        <span class="job__tag">Urgent Hiring : <a href="#">
+                                                <%= urgent_hiring%>
+                                            </a></span>
+                                        <span class="job__tag">
+                                            <%= details.job_board_name%>
+                                        </span>
+                                    </div>
+                                </div>
+                                <% })%>
+                        </div>
+                    </div>
+                </div>
+                <small class="total_page_count" style="margin-left:58%;color:#7c838a">Total page available : <%=Math.round(total_count/15)%></small>
+                <div style="float:right">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <%
+                            let minPage = 1
+                            let maxPage = 10;
+                            let disabledP;
+                            let disabledN;
+                            let pages = ((page-1)+1);
+                            let totalPage = Math.round(total_count/15);  
+                            if(pages > 5){
+                                minPage = pages-5;
+                                maxPage = pages+5;
+                            }
+                            if(pages == 1){
+                                disabledP = 'disabled';
+                            }
+                                %>
+                                <li class="page-item <%=disabledP%>"><a class="page-link" href="/page/<%=(pages-1)%>">Previous</a></li>
+                            <%
+                                for(let minPageC = minPage; minPageC <= maxPage;minPageC++){
+                                if(minPageC <= totalPage){
+                                    let activeP = '';
+                                    if(minPageC == pages){
+                                        activeP = 'active';
+                                    }
+                            %>
+                                <li class="page-item <%=activeP%>"><a class="page-link" href="/page/<%=minPageC%>"><%=minPageC%></a></li>
+                            <%
+                                    }
+                                }
+                                if(pages == totalPage){
+                                    disabledN = 'disabled';
+                                }
+                            %>
+                            <li class="page-item <%=disabledN%>"><a class="page-link" href="/page/<%=(pages+1)%>">Next</a></li>
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+    <!-- /.content-wrapper -->
+    <footer class="main-footer" style="margin-left : 0px! important">
+        <!-- <div class="float-right d-none d-sm-block">
+                <b>Version</b> 3.1.0
+            </div> -->
+        <strong>Copyright &copy; 2014-2021 <a href="/">AI HR SEARCH</a>.</strong> All rights
+        reserved.
+    </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/js/custom.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/custom-css/js/adminlte.min.js"></script>
+
+    <script src="/readmore.min.js"></script>
+
+    <script>
+        $('article').readmore({
+            collapsedHeight: 70,
+            heightMargin: 15
+        });
+        //store value after changes
+            // let arr = [];
+            // localStorage.setItem("search-data",'')
+            // let arr;
+        // if(localStorage.getItem("search-data")){
+        //     arr = JSON.parse(localStorage.getItem("search-data"));
+        // }else{
+        let arr = [];
+        localStorage.setItem("search-data",JSON.stringify([]));
+        $('input[type="checkbox"]').on('change',async function() {
+            
+            let input_val = JSON.parse(this.value);
+            let  CheckType= $(this).attr('placeholder');
+            console.log('input_val',input_val);
+            if(CheckType == 'flt_jobboard'){
+                var flt_val         = input_val.job_board_name;
+                var id              = input_val.id;
+            }else if(CheckType      == 'flt_place'){
+                var flt_val         = input_val.place_name;
+                var id              = input_val.id;
+            }else if(CheckType      == 'flt_job_type'){
+                var flt_val         = input_val.value;
+                var id              = input_val.id;
+            }
+            if(!this.checked) {
+                await deleteSearchData(id,CheckType)
+                await searchThis();
+                return false;
+            }else{
+                window.pageid = 1;
+                await store(flt_val,id,CheckType)
+                await searchThis();
+                return false;
+            }
+        });
+        async function store(val,id,type){    
+                    arr = [];
+                    let localArray = JSON.parse((localStorage.getItem("search-data")));
+                    console.log("localArray",localArray);
+                    if(localArray.length > 0){
+                        localArray.forEach((details, i) => {
+                            if(localArray[i] != null){  
+                                let obj = {
+                                    id   : localArray[i].id,
+                                    data : localArray[i].data,
+                                    type : localArray[i].type
+                                }
+                                arr.push(obj);
+                            }else{                    
+                                arr = [];
+                            }
+                        });
+                    }else{                    
+                        arr = [];
+                    }
+                    console.log('arr',arr);
+                    let obj = {
+                        id   : id,
+                        data : val,
+                        type : type
+                    }
+                    arr.push(obj);
+                    localStorage.setItem("search-data",JSON.stringify(arr));
+                    await searchData()
+                    return false;
+                
+        
+        }
+        async function searchData(){
+            $('.resselect_box').empty();
+            let search_data = JSON.parse(localStorage.getItem("search-data"));
+            console.log('searchData create',search_data)
+            if(search_data.length > 0){
+                search_data.forEach((details, i) => {
+                    if(search_data[i]){
+                        $('.resselect_box').append(`
+                        <a class="selectbox_innerres">
+                            <span>${search_data[i].data}</span>
+                            <i class="fa fa-times" id="${search_data[i].id}" onclick="deleteSearchData('${search_data[i].id}','${search_data[i].type}')"></i>
+                        </a>
+                        `);
+                        return false;
+                    }
+                });
+            }
+        }
+        async function deleteSearchData(delete_id,type){
+            $(`.${type}-${delete_id}`).prop("checked", false);
+            let search_data = JSON.parse(localStorage.getItem("search-data"));
+            search_data.forEach((details, i) => {
+                if(search_data[i] && search_data[i].id == delete_id && search_data[i].type == type){
+                    delete search_data[i];
+                    arr[i] = null     
+                }
+                   
+            });
+                localStorage.removeItem("search-data");
+                localStorage.setItem("search-data",JSON.stringify(search_data));
+                // console.log('after delete',JSON.parse(localStorage.getItem("search-data")))
+                // console.log('after arr',arr)
+                window.pageid = 1;
+                await searchData();
+                await searchThis();
+        }
+        window.pageid = 1;
+        async function searchThis(){
+            $(".pagination").html('');
+            $('#indeed-job').html(`<img src='/loading.gif' style='margin-left: 37%;margin-top: 18%;width: 250px;'/>`);
+            var page = window.pageid;
+            page = parseInt(page)
+            let search_data = $(".search-input").val();
+            let filter_data = localStorage.getItem("search-data");
+            var data = new FormData();
+            data.append('page', page);
+            data.append('search_data', search_data);
+            data.append('filter_data',filter_data);
+            let headers = new Headers();
+            headers.append('Content-Type', 'application/json');
+            headers.append('Accept', 'application/json');
+            headers.append('Access-Control-Allow-Origin', 'http://localhost:5000');
+
+            var config = {
+                method: 'post',
+                url: '/api/job-list',
+                data: data
+            };
+
+            axios(config).then(function (response) {
+                    var arr = response.data.results;
+                    let str = '';
+                    if (arr.length > 0) {
+                        var lengthArr = response.data.total_count / 15;
+                            let minPage = 1
+                            let maxPage = 10;
+                            let disabledP;
+                            let disabledN;
+                            let pages = ((page-1)+1);
+                            let totalPage = Math.round(lengthArr);  
+                            $(".total_page_count").html(`Total page available : ${totalPage}`);
+                            if(pages > 5){
+                                minPage = pages-5;
+                                maxPage = pages+5;
+                            }
+                            if(pages == 1){
+                                disabledP = 'disabled';
+                            }
+                            str += `<li class="page-item ${disabledP}"><a class="page-link" onclick="pageSet(${(pages-1)})" href="#">Previous</a></li>`;
+                            for(let minPageC = minPage; minPageC <= maxPage;minPageC++){
+                                if(minPageC <= totalPage){
+                                    let activeP = '';
+                                    if(minPageC == pages){
+                                        activeP = 'active';
+                                    }
+                                    str += `<li class="page-item ${activeP}"><a class="page-link"  onclick="pageSet(${minPageC})" href="#">${minPageC}</a></li>`;
+                                }
+                            }
+                            if(pages == totalPage){
+                                disabledN = 'disabled';
+                            }
+                            str += `<li class="page-item <%=disabledN%>"><a class="page-link" onclick="pageSet(${(pages+1)})" href="#">Next</a></li>`;
+                            
+                            $(".pagination").html(str);
+                    }else{
+                        $(".total_page_count").html('');
+                        $(".pagination").html('');
+                        $('#indeed-job').html(`<h1>No data available</h1>`);
+                        return;
+                    }
+                    let job_arr = '';
+                    $("#indeed-job").html('');
+                    arr.forEach((details, i) => {
+                        var urgent_hiring = "Yes";
+                        if (arr[i].urgent_hiring === "0") {
+                            var urgent_hiring = "No";
+                        }
+                        var url = `${JSON.stringify(details)}`;
+                        url = encodeURIComponent(url);
+                        $("#indeed-job").append(`<div class="card mb-4 job__item">
+                         <div class="card-header">
+                             <div class="row align-items-center">
+                                 <div class="col-md-8">
+                                     <h5><strong>Job Title : <a href="/matched-profile/${encodeURIComponent(arr[i].id)}">${arr[i].job_title}</a></strong></h5>
+                                     <h6><strong>Company : ${arr[i].company_name}</strong></h6>	                            
+                                 </div>
+                                 <div class="col-md-4 text-right">
+                                     <a href="/matched-profile/${encodeURIComponent(arr[i].id)}" class="btn btn-info btn-rounded btn-sm">Matched Profile</a>
+                                 </div>
+                             </div>
+                         </div>
+ 
+                         <div class="card-body">
+                             <article>
+                                 <p>${arr[i].job_description}</p>
+                             </article>
+                         </div>
+                         <div class="card-footer job__item__footer">
+                             <span class="job__tag">Place : <a href="#">${arr[i].place_name}</a></span>
+                             <span class="job__tag">Job type : <a href="#">${arr[i].job_type}</a></span>
+                             <span class="job__tag">Urgent Hiring : <a href="#">${urgent_hiring}</a></span>
+                             <span class="job__tag">${arr[i].job_board_name}</span>
+                         </div>
+                     </div>`);
+                        $('article').readmore({
+                            collapsedHeight: 70,
+                            heightMargin: 15
+                        });
+                    })
+
+
+                }).catch(function (error) {
+                    console.log(error)
+                    $('.pagination').empty();
+                    $('#indeed-job').html(`<h1>No data available</h1>`);
+                });
+        }
+        $(".search-input").keyup(function(event) {
+            if (event.keyCode === 13) {
+                searchThis()
+            }
+        });
+        function pageSet(pageid){
+            window.pageid = pageid;
+            searchThis()
+        }
+    </script>
+<script>
+    $('.search-input').on('keyup',function(e){
+        let data = new FormData();
+        data.append('search', $('.search-input').val());
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
+        headers.append('Access-Control-Allow-Origin', 'http://localhost:5000');
+
+        var config = {
+            method: 'post',
+            url: '/api/search-list',
+            data: data
+        };
+
+        axios(config).then(function (response) {
+            console.log(response.data.data)
+            var availableTags = response.data.data;
+            
+            function onlyUnique(value, index, self) {
+                return self.indexOf(value) === index;
+            }
+            
+            var arr = availableTags.filter(onlyUnique);
+            $( ".search-input" ).autocomplete({
+                source: arr,
+                select: function( event, ui ) {
+                    window.pageid = pageid;
+                    searchThis()
+                }
+            });
+        }).catch(function (error) {
+            console.log(error)
+            return error;
+        });
+    } );
+    </script>
+
+</body>
+
+</html>

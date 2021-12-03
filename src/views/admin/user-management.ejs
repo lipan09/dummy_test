@@ -1,0 +1,126 @@
+<%- include('layouts/header') %>
+
+  <body class="">
+    <div class="wrapper ">
+      <%- include('layouts/sidebar') %>
+        <div class="main-panel">
+          <%- include('layouts/navbar') %>
+          <div class="content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card">
+                    <div class="card-header card-header-primary">
+                      <h4 class="card-title ">Users List</h4>
+                      <p class="card-category"> All users listed here</p>
+                      <a class="btn btn-success" href="/admin/add/user" style="float:right;margin-top:-45px;">Add</a>
+                    </div>
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table">
+                          <thead class=" text-primary">
+                            <th>
+                              ID
+                            </th>
+                            <th>
+                              Name
+                            </th>
+                            <th>
+                              Email
+                            </th>
+                            <th>
+                              Created Time
+                            </th>
+                            <th>
+                              Status
+                            </th>
+                            <th>
+                              Action
+                            </th>
+                          </thead>
+                          <tbody>
+                            <% let i=1; data.forEach((details)=> {
+                              %>
+                              <tr>
+                                <td>
+                                  <%=i++%>
+                                </td>
+                                <td>
+                                  <%=details.first_name%> <%=details.last_name%>
+                                </td>
+                                <td>
+                                  <%=details.email%>
+                                </td>
+                                <td>
+                                  <%=details.created_at%>
+                                </td>
+                                <td>
+                                  <%
+                                  let status = 'Inactive';
+                                    if(details.is_active == 1){
+                                      status = 'Active';
+                                    }
+                                  %>
+                                  <%=status%>
+                                </td>
+                                <td class="text-primary">
+                                  <!-- <button class="btn btn-outline-primary">
+                                    <span class="material-icons">edit</span>
+                                  </button> -->
+                                  <a class="btn btn-outline-primary" title="Edit User" href="/admin/edit/user/<%=details.id%>">
+                                    <span class="material-icons">edit</span>
+                                  </a>
+                                  <a class="btn btn-outline-danger" title="Delete User" href="/admin/delete/user/<%=details.id%>"  onclick="return confirm('Are you sure you want to delete?')">
+                                    <span class="material-icons">delete</span>
+                                  </a>
+                                </td>
+                              </tr>
+                              <% });%>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <%- include('layouts/footer') %>
+          
+          <script>
+            $('#search-input').on('keyup',function(e){
+                let data = new FormData();
+                data.append('search', $('#search-input').val());
+                let headers = new Headers();
+                headers.append('Content-Type', 'application/json');
+                headers.append('Accept', 'application/json');
+                headers.append('Access-Control-Allow-Origin', 'http://localhost:5000');
+        
+                var config = {
+                    method: 'post',
+                    url: '/api/search-list',
+                    data: data
+                };
+        
+                axios(config).then(function (response) {
+                    console.log(response.data.data)
+                    var availableTags = response.data.data;
+                    
+                    function onlyUnique(value, index, self) {
+                        return self.indexOf(value) === index;
+                    }
+                    
+                    var arr = availableTags.filter(onlyUnique);
+                    $( "#search-input" ).autocomplete({
+                        source: arr,
+                        select: function( event, ui ) {
+                            window.pageid = pageid;
+                            searchThis()
+                        }
+                    });
+                }).catch(function (error) {
+                    console.log(error)
+                    return error;
+                });
+            } );
+            </script>

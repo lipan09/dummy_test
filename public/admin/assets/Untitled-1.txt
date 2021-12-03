@@ -1,0 +1,34 @@
+        $("#to").autocomplete({
+            source: function (request, response) {
+
+                var friendsArray = [];
+                friendsArray = [{
+                    "id": 1,
+                    "name": "hulk",
+                    "value": "hulk"
+                }, {
+                    "id": 2,
+                    "name": "ironman",
+                    "value": "ironman"
+                }, {
+                    "id": 3,
+                    "name": "Foobar",
+                    "value": "Foobar"
+                }];
+
+                response(friendsArray);
+                return;
+
+
+            },
+
+            select: function (e, ui) {
+
+                alert("selected!");
+            },
+
+            change: function (e, ui) {
+
+                alert("changed!");
+            }
+        });

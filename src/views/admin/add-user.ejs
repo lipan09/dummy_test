@@ -1,0 +1,158 @@
+<%- include('layouts/header') %>
+
+  <body class="">
+    <div class="wrapper ">
+      <%- include('layouts/sidebar') %>
+        <div class="main-panel">
+          <!-- Navbar -->
+          <%- include('layouts/navbar') %>
+            <!-- End Navbar -->
+            <div class="content">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="card">
+                      <div class="card-header card-header-primary">
+                        <h4 class="card-title">Add User</h4>
+                        <p class="card-category">Complete users profile</p>
+                      </div>
+                      <div class="card-body">
+                        <form action="/admin/save/user" method="POST">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                <label class="bmd-label-floating">Company</label>
+                                <input type="text" class="form-control" name="company_name">
+                              </div>
+                            </div>
+                            <!-- <div class="col-md-6">
+                              <div class="form-group">
+                                <div class="file-field">
+                                  <div class="btn btn-primary btn-sm float-left">
+                                    <span>Choose Profile Image</span>
+                                    <input type="file">
+                                  </div>
+                                </div>
+                              </div>
+                            </div> -->
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label class="bmd-label-floating">Fist Name</label>
+                                <input type="text" class="form-control" name="first_name">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label class="bmd-label-floating">Last Name</label>
+                                <input type="text" class="form-control" name="last_name">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label class="bmd-label-floating">Email address</label>
+                                <input type="email" class="form-control" name="email">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label class="bmd-label-floating">Password</label>
+                                <input type="password" class="form-control" name="password">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label class="bmd-label-floating">Contact No.</label>
+                                <input type="number" class="form-control" name="contact_no">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label class="bmd-label-floating">Address</label>
+                                <input type="text" class="form-control" name="address">
+                              </div>
+                            </div>
+                          </div>
+                          <!-- <div class="row">
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                <label>About Me</label>
+                                <div class="form-group">
+                                  <label class="bmd-label-floating"> Lamborghini Mercy, Your chick she so thirsty, I'm
+                                    in that two seat Lambo.</label>
+                                  <textarea class="form-control" rows="5"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </div> -->
+                          <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                          <div class="clearfix"></div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="col-md-4">
+                    <div class="card card-profile">
+                      <div class="card-avatar">
+                        <a href="javascript:;">
+                          <img class="img" src="../assets/img/faces/marc.jpg" />
+                        </a>
+                      </div>
+                      <div class="card-body">
+                        <h6 class="card-category text-gray">CEO / Co-Founder</h6>
+                        <h4 class="card-title">Alec Thompson</h4>
+                        <p class="card-description">
+                          Don't be scared of the truth because we need to restart the human foundation in truth And I
+                          love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+                        </p>
+                        <a href="javascript:;" class="btn btn-primary btn-round">Follow</a>
+                      </div>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+            <%- include('layouts/footer') %>
+
+              <script>
+                $('#search-input').on('keyup', function (e) {
+                  let data = new FormData();
+                  data.append('search', $('#search-input').val());
+                  let headers = new Headers();
+                  headers.append('Content-Type', 'application/json');
+                  headers.append('Accept', 'application/json');
+                  headers.append('Access-Control-Allow-Origin', 'http://localhost:5000');
+
+                  var config = {
+                    method: 'post',
+                    url: '/api/search-list',
+                    data: data
+                  };
+
+                  axios(config).then(function (response) {
+                    console.log(response.data.data)
+                    var availableTags = response.data.data;
+
+                    function onlyUnique(value, index, self) {
+                      return self.indexOf(value) === index;
+                    }
+
+                    var arr = availableTags.filter(onlyUnique);
+                    $("#search-input").autocomplete({
+                      source: arr,
+                      select: function (event, ui) {
+                        window.pageid = pageid;
+                        searchThis()
+                      }
+                    });
+                  }).catch(function (error) {
+                    console.log(error)
+                    return error;
+                  });
+                });
+              </script>

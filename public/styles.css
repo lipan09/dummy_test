@@ -1,0 +1,36 @@
+html {
+  scroll-behavior: smooth;
+}
+.wrapper{
+  margin-top:10px;
+}
+.card{
+  box-shadow: 5px 5px 5px 5px #80808052;
+}
+.bg-success{
+  min-width: 30%;
+}
+.timeline>div>.timeline-item>.timeline-header>a{
+  cursor:text;
+}
+.timeline>div>.timeline-item>.timeline-header>small>a{
+  cursor:text;
+}
+.numberCircle {
+  color: rgb(94, 92, 173);
+  font: 15px Arial, sans-serif;
+  font-weight: bold;
+}
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  [class*="card-body"] {
+    padding: 0.25rem;
+  }
+  [class*="bg-success"] {
+    min-width: 96%;
+  }
+  ul.nav.nav-pills.button-align li a {
+    font-size: 13px;
+    padding: 8px 5px;
+}
+}

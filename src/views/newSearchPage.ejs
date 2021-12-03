@@ -1,0 +1,706 @@
+<html lang="en" class="js-focus-visible" data-js-focus-visible="" style="height: auto;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI HR SEARCH</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="https://aihrsearch.com/custom-css/css/adminlte.min.css">
+    <link rel="stylesheet" href="/style.css">
+
+
+    <style type="text/css">
+        @font-face {
+            font-weight: 400;
+            font-style: normal;
+            font-family: 'Circular-Loom';
+
+            src: url('https://cdn.loom.com/assets/fonts/circular/CircularXXWeb-Book-cd7d2bcec649b1243839a15d5eb8f0a3.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-weight: 500;
+            font-style: normal;
+            font-family: 'Circular-Loom';
+
+            src: url('https://cdn.loom.com/assets/fonts/circular/CircularXXWeb-Medium-d74eac43c78bd5852478998ce63dceb3.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-weight: 700;
+            font-style: normal;
+            font-family: 'Circular-Loom';
+
+            src: url('https://cdn.loom.com/assets/fonts/circular/CircularXXWeb-Bold-83b8ceaf77f49c7cffa44107561909e4.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-weight: 900;
+            font-style: normal;
+            font-family: 'Circular-Loom';
+
+            src: url('https://cdn.loom.com/assets/fonts/circular/CircularXXWeb-Black-bf067ecb8aa777ceb6df7d72226febca.woff2') format('woff2');
+        }
+    </style>
+    <style type="text/css">
+        undefined+[data-readmore-toggle],
+        undefined[data-readmore] {
+            display: block;
+            width: 100%;
+        }
+
+        undefined[data-readmore] {
+            transition: height 100ms;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+
+
+
+<body class="sidebar-mini" style="height: auto;">
+    <nav class="navbar navbar-light bg-light static-top">
+        <div class="container">
+            <div class="navbar-brand" style="width:100%">
+                <!-- <img src="/Resume-Sending-Logo.png" style="width:100px"/> -->
+                <div class="page-header"
+                    style="width: 100%;display: flex;justify-content: space-between;    align-items: center;">
+                    <a href="/" style="text-decoration:none;cursor:pointer">
+                        <h1 style="color:#00398e">AI HR SEARCH</h1>
+                    </a>
+                    <a href="/logout" style="font-size:15px! important">
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="wrapper">
+        <section class="content job__list__wrap pb-5 job_searchh">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="filter_partts">
+                            <div class="filter_Result">
+                                <h2>Company Name : <%= company_name%>
+                                </h2>
+                            </div>
+                            <div class="filter_inner">
+
+                                <div class="place_div">
+                                    <div class="place_inner">
+                                        Company Location : <%= company_location%>
+                                    </div>
+                                    <div class="resume_no">
+                                        Resume Found :
+                                    </div>
+                                    <div class="hr_details">
+                                        HR Found From Bigdata : <span class="hr_count_bigdata">0</span>
+                                    </div>
+                                    <div class="place_inner_text">
+                                        <ul class="hr_details_bigdata">
+
+                                        </ul>
+                                    </div>
+                                    <div class="hr_details">
+                                        HR Found From linkedin : <span class="hr_count_linkedin">0</span>
+                                    </div>
+                                    <div class="place_inner_text">
+                                        <ul class="hr_details_linkedin">
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="top__heading text-center">
+                            <h3>Match profile for job title : <u>
+                                    <%= job_title %>
+                                </u></h3>
+                        </div>
+
+                        <div class="table__area">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="thead">
+                                    </thead>
+                                    <tbody class="tbody">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="paginate">
+                            </div>
+                        </div>
+
+
+                        <button onclick="send_invitation()" class="btn btn-success"
+                            style="position: fixed; bottom: 20px; right: 10px;">Send Invitation</button>
+
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" class="company_linkedin" id="jsonInput" value="">
+        </section>
+    </div>
+
+    <!-- /.content-wrapper -->
+    <footer class="main-footer" style="margin-left : 0px! important">
+        <!-- <div class="float-right d-none d-sm-block">
+                <b>Version</b> 3.1.0
+            </div> -->
+        <strong>Copyright © 2014-2021 <a href="/">AI HR SEARCH</a>.</strong> All rights
+        reserved.
+    </footer>
+
+    <!-- Bootstrap core JS-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/scripts.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script> -->
+    <!-- Core theme JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script>
+
+        function hrDetails(company_name) {
+            $('.hr_details_bigdata').html(`<img src='/loading.gif' style='margin-left:7%;margin-top:10%;width:180px'/>`);
+            $('.hr_details_linkedin').html(`<img src='/loading.gif' style='margin-left:7%;margin-top:10%;width:180px'/>`);
+            var data = new FormData();
+            data.append('id', company_name);
+
+            let headers = new Headers();
+
+            headers.append('Content-Type', 'application/json');
+            headers.append('Accept', 'application/json');
+
+            headers.append('Access-Control-Allow-Origin', 'http://localhost:5000');
+
+            var config = {
+                method: 'post',
+                url: 'https://gcntechdata.com/dataexportv1/',
+                data: data
+            };
+
+            axios(config)
+                .then(function (response) {
+                    //   console.log(response.data.Response_Data.status);
+                    let arrs = response.data.Response_Data.response_bigdata;
+                    if (arrs.length > 0) {
+                        //unique email
+                        var arr = findUnique(arrs, d => d.person_email);
+
+
+                        $(".hr_title").empty();
+                        $('.hr_details_bigdata').empty();
+                        $('.card').css({ height: '300px' });
+                        $('#border-right').css('border-right', ' 1px solid #00398e');
+
+                        console.log('arr hr - ', arr);
+                        let bigdata_limit = "<%= resultsHrLimits.bigdata_limit%>";
+                        // alert(bigdata_limit)
+                        $(".hr_count_bigdata").html(arr.length);
+                        for (let i = 0; i <= arr.length; i++) {
+                            if (i <= bigdata_limit) {
+                                var person_phone = "";
+                                var person_location_country = "";
+
+                                if (arr[i].person_phone && arr[i].person_phone != "null" && arr[i].person_phone != undefined) {
+                                    var person_phone = "<div class='ul__deg'>" + arr[i].person_phone + "</div>";
+                                }
+                                if (arr[i].person_location_country && arr[i].person_location_country != 'null') {
+                                    var person_location_country = "<div class='ul__deg'>" + arr[i].person_location_country + "</div>";
+                                }
+                                $(".hr_details_bigdata").append(`
+                                            <li>
+                                                <div class="img">
+                                                    <img src="/images/user.png" />
+                                                </div>
+                                                <div class="text">
+                                                    <a target="_blank" href="${arr[i].person_linkedin_url}">${arr[i].person_name}</a>
+                                                    <span style="color:grey;word-wrap: break-word;">${arr[i].organization_name}</span>
+                                                    <span>${person_phone}</span>
+                                                    <span  style="color:green;word-wrap: break-word;">${arr[i].person_email}</span>
+                                                    <span>${arr[i].person_title}</span>
+                                                </div>
+                                            </li>`);
+                            }
+                        }
+                    } else {
+                        $(".hr_details_bigdata").html("<p style='color:blue'>There is no data available on BIGDATA</p>");
+                    }
+                }).catch(function (error) {
+                    //$("#hr_details").html("<p style='color:blue'>API Error found</p>");
+                });
+            return;
+        }
+        function findUnique(arr, predicate) {
+            // alert(predicate)
+            var found = {};
+            arr.forEach(d => {
+                found[predicate(d)] = d;
+            });
+            return Object.keys(found).map(key => found[key]);
+        }
+        function companyLinkedin(company_name) {
+            let headers = new Headers();
+
+            headers.append('Content-Type', 'application/json');
+            headers.append('Accept', 'application/json');
+
+            headers.append('Access-Control-Allow-Origin', 'http://localhost:5000');
+
+            var config = {
+                method: 'post',
+                headers: {
+                    'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoidXRzYWJEdXR0YSJ9.52MSVGPtI1G6qb1fNiNhrhWdSBbiK-1pRAyNEteJH5Y',
+                    'company_name': company_name
+                },
+                url: 'https://api.gcntechdata.com/get_linkedIn_company_name'
+            };
+
+            axios(config)
+                .then(function (response) {
+                    console.log('linkedin', response.data);
+                    window.company_linkedin_url = response.data;
+                    let linkedinArray = { "company_name": company_name, "company_linkedin_url": response.data };
+                    $('.company_linkedin').val(`${JSON.stringify(linkedinArray)}`);
+
+                }).catch(function (error) {
+                    console.log(error.response.status);
+                    $('.tbody').html(`<h5>There is no data available</h5>`);
+                });
+            return;
+        }
+
+
+
+        localStorage.setItem("pageNumber", 1);
+        localStorage.setItem("lastid", null)
+        function cvDetails() {
+
+            $('.tbody').html(`<img src='/loading.gif' style='margin-left: 37%;margin-top: 18%;width: 250px;'/>`);
+
+            const job_title = "<%= job_title%>";
+            const company_location = "<%= company_location%>";
+            const company_name = "<%= company_name%>";
+            const size = 25;
+            let page = localStorage.getItem("pageNumber") * 1;
+            let lastId = localStorage.getItem("lastid");
+            var from = (page - 1) * size;
+            if (from < 0) {
+                from = 0;
+            }
+            if (page < 1) {
+                page = 1;
+            }
+
+            let headers = new Headers();
+            headers.append('Content-Type', 'application/json');
+            headers.append('Accept', 'application/json');
+            headers.append('Access-Control-Allow-Origin', 'http://localhost:5000');
+
+            var config = {
+                method: 'post',
+                headers: {
+                    'Authorization': ' eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoidXRzYWJEdXR0YSJ9.52MSVGPtI1G6qb1fNiNhrhWdSBbiK-1pRAyNEteJH5Y',
+                    'job_title': job_title
+                },
+                url: 'https://api.aibigdata.io/api/profilefetch',
+
+                data: { "from": from, "size": size, "page": page, "lastId": lastId, "search": job_title, "location": "atlanta", "organizationNamesSearch": [] }
+            };
+
+            axios(config)
+                .then(function (response) {
+                    $('.thead').empty();
+                    $('.tbody').empty();
+                    console.log('big-data-d', response.data.detail);
+                    localStorage.setItem("lastid", response.data.id);
+                    const data = response.data.detail;
+                    const total = response.data.total["value"];
+
+                    if (data.length == 0) {
+                        $('.tbody').html(`<h5> There is no data available</h5> `);
+                        return;
+                    }
+                    $(".resume_no").html(`Resume Found : ${total}`);
+
+                    $(".thead").append(`<tr>
+				                    		<th><input type="checkbox" onclick="toggle(this);" /></th>
+				                    		<th>Name</th>
+				                    		<th>Email</th>
+				                    		<th>Phone</th>
+				                    		<th>Job Title</th>
+				                    		<th>Linkedin Profile</th>
+				                    		<th>Industry</th>
+				                    	</tr>`);
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        $(".tbody").append(`<tr>
+                                                <td><input value="${data[i]['_source'].person_email}" type="checkbox" name="checkbox-${(i + 1)}" id="checkbox-${(i + 1)}" /></td>
+                                                <td onclick="tdClick(${(i + 1)},'${data[i]['_source'].person_email}')">${data[i]['_source'].person_name}</td>
+                                                <td onclick="tdClick(${(i + 1)},'${data[i]['_source'].person_email}')">${data[i]['_source'].person_email}</td>
+                                                <td onclick="tdClick(${(i + 1)},'${data[i]['_source'].person_email}')">${data[i]['_source'].person_phone}</td>
+                                                <td onclick="tdClick(${(i + 1)},'${data[i]['_source'].person_email}')">${data[i]['_source'].person_title}</td>
+                                                <td onclick="tdClick(${(i + 1)},'${data[i]['_source'].person_email}')"><a href="${data[i]['_source'].person_linkedin_url}"  target="_blank">${data[i]['_source'].person_linkedin_url}</a></td>
+                                                <td onclick="tdClick(${(i + 1)},'${data[i]['_source'].person_email}')">${data[i]['_source'].organization_industries}</td>
+                                            </tr>`);
+
+                    }
+                    let noOfPages = Math.ceil(total / size);
+
+                    if (noOfPages > 10) {
+                        noOfPages = 10;
+                    }
+                    var htmlPageBody = `
+                        <nav aria-label="Page navigation example" >
+                            <ul class="pagination justify-content-end">
+                                <li class="page-item">
+                                    <a class="page-link" href="#" onclick="pageNumber(0)">Previous</a>
+                                </li>
+                        `;
+                    // for (let i = 0; i < noOfPages; i++) {
+                    //     htmlPageBody += `<li class="page-item"><a class="page-link" href="#">${i+1}</a></li>`;
+                    // }
+                    htmlPageBody += `
+                                <li class="page-item">
+                                    <a class="page-link" href="#" onclick="pageNumber(1)">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        `;
+
+                    $("#paginate").html(htmlPageBody);
+                    // $("#paginate").html(`
+                    //     <nav aria-label="Page navigation example" >
+                    //         <ul class="pagination justify-content-end">
+                    //             <li class="page-item disabled">
+                    //                 <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    //             </li>
+                    //             <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    //             <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    //             <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    //             <li class="page-item">
+                    //                 <a class="page-link" href="#">Next</a>
+                    //             </li>
+                    //         </ul>
+                    //     </nav>
+                    // `);
+
+                }).catch(function (error) {
+                    console.log(error.response.status);
+                    $('.tbody').html(`< h5 > There is no data available</h5 > `);
+                });
+            return;
+        }
+        function pageNumber(val) {
+            var pageNumber = (localStorage.getItem("pageNumber") * 1);
+            if (val == 1) {
+                var page = pageNumber + 1;
+            } else {
+                var page = pageNumber - 1;
+            }
+            localStorage.setItem("pageNumber", page);
+            cvDetails()
+        }
+        // function cvDetails(company_name) {
+
+        //     $('.tbody').html(`< img src = '/loading.gif' style = 'margin-left: 37%;margin-top: 18%;width: 250px;' /> `);
+
+        //     var job_title = "<%= job_title%>";
+        //     var data = new FormData();
+        //     data.append('id', company_name);
+
+        //     let headers = new Headers();
+
+        //     headers.append('Content-Type', 'application/json');
+        //     headers.append('Accept', 'application/json');
+
+        //     headers.append('Access-Control-Allow-Origin', 'http://localhost:5000');
+
+        //     var config = {
+        //         method: 'post',
+        //         headers: {
+        //             'Authorization': ' eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoidXRzYWJEdXR0YSJ9.52MSVGPtI1G6qb1fNiNhrhWdSBbiK-1pRAyNEteJH5Y',
+        //             'job_title': job_title
+        //         },
+        //         url: 'https://api.gcntechdata.com/candidate_details_against_job_title',
+        //         data: data
+        //     };
+
+        //     axios(config)
+        //         .then(function (response) {
+        //             console.log(response.status);
+        //             const arr = response.data;
+        //             window.value = arr;
+        //             $(".thead").append(`< tr >
+        //                         <th><input type="checkbox" onclick="toggle(this);" /></th>
+        //                         <th>Name</th>
+        //                         <th>Email</th>
+        //                         <th>Phone</th>
+        //                         <th>Download Resume</th>
+        //                     </tr>`);
+
+        //             $('.tbody').empty();
+        //             var data = arr.data;
+        //             console.log({ 'data': arr.data });
+
+        //             $(".resume_no").html(`Resume Found : ${data.length}`);
+        //             for (var i = 0; i < data.length; i++) {
+        //                 $(".tbody").append(`<tr onclick="tdClick(${(i + 1)})">
+        //                         <td><input type="checkbox" name="checkbox-${(i + 1)}" id="checkbox-${(i + 1)}" /></td>
+        //                         <td>${data[i].First_Name} ${data[i].Last_Name}</td>
+        //                         <td>${data[i].Email}</td>
+        //                         <td>${data[i].Phone}</td>
+        //                         <td><a href="${data[i].Resume_pdf}" target="_blank"><button class="btn btn-primary" style="padding: 0.25rem 0.40rem! important">Download/View</button></a></td>
+        //                     </tr>`);
+        //             }
+        //         }).catch(function (error) {
+        //             console.log(error.response.status);
+        //             $('.tbody').html(`<h5>There is no data available</h5>`);
+        //         });
+        //     return;
+        // }
+
+        // $('#hr_details2').empty();
+        companyLinkedin("<%= company_name %>");
+        hrDetails("<%= company_name %>");
+        $(window).on("load", cvDetails);
+        window.dbID = 0;
+        let interval = setInterval(function () {
+            let link = window.company_linkedin_url;
+            //let link = 'https://www.linkedin.com/company/staffmark';
+            var data = new FormData();
+            data.append('company_profile_link', link);
+            let headers = new Headers();
+            headers.append('Content-Type', 'application/json');
+            headers.append('Accept', 'application/json');
+            headers.append('Access-Control-Allow-Origin', 'http://localhost:5000');
+
+            var config = {
+                method: 'post',
+                url: '/api/get/data',
+                data: data
+            };
+            try {
+                axios(config).then(function (response) {
+                    let jsonData = response.data.data;
+                    if (jsonData.length < 1) {
+                        $(".hr_details_linkedin").html(`<p style='color:blue'>Please run chrome extension</p>`);
+                        return;
+                    }
+                    localStorage.setItem("LinkedinData", JSON.stringify(response.data.data));
+                    // console.log('database data',response.data.results2[0].id);
+                    console.log('W dbID', window.dbID);
+                    console.log('dbID', response.data.results2[0].id);
+                    if (window.dbID === response.data.results2[0].id) {
+                        return;
+                    }
+
+                    console.log('sweet', response.data.results2[0].id);
+                    window.dbID = response.data.results2[0].id;
+                    // if(jsonData.length < 1){
+                    //     clearInterval(interval)
+                    // }
+                    //console.log('timeout',jsonData)
+                    // return;
+                    // let jsonData = JSON.parse(response.data.results2[0]['connection_details']);
+
+                    // var contact_linkedin_link = [];
+                    // var cnt = 1;
+                    //$(".hr_count_linkedin").html(`(Linkedin Data : ${jsonData.length})`);
+                    // $(".hr_details_linkedin").empty();
+                    // jsonData.forEach((details, i) => {
+                    //  if(details.profile_url == '' || details.profile_url.length < 5){
+                    //      console.log('profile_url',details.profile_url)
+                    //     return;
+                    //  }
+                    // contact_linkedin_link.push(jsonData[i].profile_url);
+                    // $(".hr_details_linkedin").append(`<li>
+                    //                             <a href="${jsonData[i].profile_url}">${jsonData[i].name}</a>
+                    //                             <span class='contact_email_${cnt++}'></span>
+                    //                             <span>${jsonData[i].place}</span>
+                    //                             <span>${jsonData[i].job_title}</span>
+                    //                         </li>`);
+                    //                 });
+
+                    contact_linkedin_email();
+                }).catch(function (error) {
+                    $(".hr_details_linkedin").html(`<p style='color:blue'>Please run chrome extension</p>`);
+                    return error;
+                });
+            } catch (error) {
+                console.log(error.response); // this is the main part. Use the response property from the error object
+
+                $(".hr_details_linkedin").html(`<p style='color:blue'>Please run chrome extension</p>`);
+                return error.response;
+            }
+
+        }, 2400000);
+
+
+        linkedinDataArray = [];
+        async function contact_linkedin_email() {
+            let contact_linkedin_link = [];
+            //console.log('linkedinData',localStorage.getItem("LinkedinData"));
+            let linkedinData = JSON.parse(localStorage.getItem("LinkedinData"));
+            linkedinData = findUnique(linkedinData, d => d.profile_url);
+            console.log('linkedinData', linkedinData);
+            linkedinData.forEach((details, i) => {
+                if (details.profile_url != '' || details.profile_url.length > 5) {
+                    linkedinDataArray.push(details);
+                    contact_linkedin_link.push(details.profile_url);
+                }
+            });
+            console.log('linkedinDataArray', linkedinDataArray);
+
+            var linkedin_link_array = { "data": contact_linkedin_link };
+            let headers = new Headers();
+
+            headers.append('Content-Type', 'application/json');
+            headers.append('Accept', 'application/json');
+
+            headers.append('Access-Control-Allow-Origin', 'http://localhost:5000');
+            headers.append('Authorization', 'Token 1f39f9f8ce3ba7f6705702964944128d07b7fa3e');
+
+            var config = {
+                method: 'post',
+                url: 'https://gcntechdata.com/searchemailv1',
+                headers: {
+                    'Authorization': 'Token 1f39f9f8ce3ba7f6705702964944128d07b7fa3e',
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(linkedin_link_array)
+            };
+
+            await axios(config)
+                .then(function (resultData) {
+                    $('.hr_details_linkedin').empty();
+                    // var resultData = JSON.parse(resultData);
+                    console.log('resultData', resultData);
+                    var Response_Data = resultData.data.Response_Data;
+
+                    Response_Data.forEach((details, i) => {
+                        if (details.status == "false") {
+                            return;
+                        }
+                        console.log('profile_url', linkedinDataArray[i].profile_url);
+                        console.log('linkedin_url', details.linkedin_url);
+                        if (details.linkedin_url == linkedinDataArray[i].profile_url) {
+                            linkedinDataArray[i].email = details.email[0].email;
+                        }
+                        console.log('resultData1', details.email[0].email);
+                        //var bb = details.email[0].email+` <span style="color:blue;font-weight:bold">(Snov.io)</span>`;
+                        //$('.contact_email_'+(i)).html(bb);
+                    });
+
+
+                    var cnt = 1;
+                    function compare(a, b) {
+                        if (a.email) {
+                            return -1;
+                        } else {
+                            return 1;
+                        }
+                        return 0;
+                    }
+
+                    linkedinDataArray.sort(compare);
+                    console.log('linkedinDataArray rearrange', linkedinDataArray);
+                    if (linkedinDataArray.length > 0) {
+                        $(".hr_count_linkedin").html(linkedinDataArray.length);
+                    } else {
+                        $(".hr_details_linkedin").html(`<p style='color:blue'>Please run chrome extension</p>`);
+                    }
+                    console.log('linkedinDataArray', linkedinDataArray);
+
+                    let linkedin_limit = "<%= resultsHrLimits.linkedin_limit%>";
+                    linkedinDataArray.forEach((details, i) => {
+                        console.log(details)
+                        if (i <= linkedin_limit) {
+                            let emailDiv = '';
+                            if (details.email) {
+                                emailDiv = `<span style="color:blue;font-weight:bold;word-break:break-word">${details.email} (Snov.io)</span>`;
+                            }
+                            $(".hr_details_linkedin").append(`<li>
+                                <div class="img">
+                                    <img src="${details.image_url}" />
+                                </div>
+                                <div class="text">
+                                    <a target="_blank" href="${details.profile_url}">${details.name}</a>
+                                    ${emailDiv}
+                                    <span style="color:green">${details.place}</span>
+                                    <span>${details.job_title}</span>
+                                </div>
+                            </li>`);
+                        }
+                    });
+
+                    console.log('linkedinDataArray modify', linkedinDataArray);
+                });
+        }
+
+        function toggle(source) {
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            let arrayOfEmail = [];
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i] != source)
+                    checkboxes[i].checked = source.checked;
+
+                    arrayOfEmail.push(checkboxes[i].value);
+                    
+            }
+            
+            console.log('cnm',arrayOfEmail);
+            localStorage.setItem("selectedEmail",JSON.stringify(arrayOfEmail));
+            
+        }
+        localStorage.setItem("selectedEmail",null);
+        function tdClick(e, email) {
+            if (!$("#checkbox-" + e).is(':checked')) {
+                $("#checkbox-" + e).prop("checked", true);
+            } else {
+                $("#checkbox-" + e).prop("checked", false);
+            }
+
+            //store email
+            // localStorage.setItem("selectedEmail",JSON.stringify(['vv','mm']))
+            let arrayOfEmail = []
+            let selectedEmail = localStorage.getItem("selectedEmail");
+            
+            if(selectedEmail !== 'null'){
+                arrayOfEmail = JSON.parse(selectedEmail);
+            }
+            
+            arrayOfEmail.push(email);
+            localStorage.setItem("selectedEmail",JSON.stringify(arrayOfEmail));
+            
+            console.log(arrayOfEmail);
+
+            
+
+        };
+        function send_invitation() {
+            window.location.href = "/send-invitation";
+        }
+    </script>
+
+</body>
+<loom-container id="lo-engage-ext-container">
+    <div></div>
+    <loom-shadow classname="resolved"></loom-shadow>
+</loom-container>
+
+</html>

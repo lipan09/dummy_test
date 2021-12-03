@@ -1,0 +1,76 @@
+<div class="sidebar" data-color="purple" data-background-color="white" data-image="/admin/assets/img/sidebar-1.jpg">
+  <div class="logo"><a href="/admin" class="simple-text logo-normal">
+      AI HR SEARCH
+    </a></div>
+  <div class="sidebar-wrapper">
+    <ul class="nav">
+      
+      <li class="nav-item active">
+        <a class="nav-link"href="/admin">
+          <i class="material-icons">dashboard</i>
+          <p>Dashboard</p>
+        </a> 
+      </li>
+      <%
+      modules.forEach((details)=>{
+        let href;
+        let collapsible;
+        if(details.parent_id == 0){
+          if(details.sub_group != 'yes'){
+            href = "href=/admin/"+details.slug_name;
+          }else{
+            collapsible =  "collapsible collapsible-accordion";
+          }
+      %>
+      <li class="nav-item">
+        <a class="nav-link <%=collapsible%>" <%=href%>>
+          <i class="material-icons">dashboard</i>
+          <p><%=details.title%></p>
+        </a>
+
+        <ul class="nav collapsible-body">
+          <%
+            modules.forEach((subMenu)=>{
+            if(details.id == subMenu.parent_id){
+          %>
+          <a href="/admin/<%=subMenu.slug_name%>"><li class="nav-item"><i class="material-icons">double_arrow</i>
+            <%=subMenu.title%></li></a> 
+          <%
+            }
+          });
+          %>
+        </ul>
+
+      </li>
+      <%
+        }
+      });
+      %>
+      <!-- <li class="nav-item ">
+        <a class="nav-link" href="/admin/user/management">
+          <i class="material-icons">person</i>
+          <p>User Management</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/company/management">
+          <i class="material-icons">content_paste</i>
+          <p>Company Management</p>
+        </a>
+      </li> -->
+      <!-- Start nested content -->
+      
+      <!-- <li class="nav-item">
+        <a class="nav-link collapsible collapsible-accordion">
+          <i class="material-icons">settings</i>
+          <p>Settings</p>
+        </a>
+        <ul class="nav collapsible-body">
+          <a href="/admin/module/management"><li class="nav-item"><i class="material-icons">double_arrow</i>
+            Module Management</li></a>
+          <a href="/admin/role/management"><li class="nav-item"><i class="material-icons">double_arrow</i>
+            Role Management</li></a>
+        </ul>
+      </li> -->
+  </div>
+</div>

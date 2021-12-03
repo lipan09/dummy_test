@@ -1,0 +1,32 @@
+.btn {
+    padding: 7px 7px!important;
+}
+.input-group {
+    width: 276%!important;
+}
+.ui-menu {
+    position: relative;
+    top: -322.5px;
+    left: 728.25px;
+    width: 38%;
+    border: 1px solid #972faf;
+    z-index: 1000;
+    background-color: white;
+}
+li{
+
+    cursor: pointer;
+}
+.ui-menu>li {
+    border-bottom: 1px solid #952dae;
+}
+.nav-item .collapsible-body {
+    padding: 0 32px;
+    display:none;
+    margin-top:0px;
+}
+
+/* .sidenav.sidenav-fixed {
+    left: 0 !important;
+    display: block !important;
+} */

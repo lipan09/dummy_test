@@ -1,0 +1,85 @@
+<%- include('layouts/header') %>
+
+  <body class="">
+    <div class="wrapper ">
+      <%- include('layouts/sidebar') %>
+        <div class="main-panel">
+          <!-- Navbar -->
+          <%- include('layouts/navbar') %>
+          <!-- End Navbar -->
+          <div class="content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card">
+                    <div class="card-header card-header-primary">
+                      <h4 class="card-title ">Company List</h4>
+                      <p class="card-category"> All company listed here</p>
+                    </div>
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table">
+                          <thead class=" text-primary">
+                            <!-- <th>
+                              <input type="checkbox">
+                            </th> -->
+                            <th>
+                              ID
+                            </th>
+                            <th>
+                              Company Name
+                            </th>
+                            <th>
+                              Location
+                            </th>
+                            <th>
+                              Job Board Name
+                            </th>
+                            <th>
+                              Action
+                            </th>
+                          </thead>
+                          <tbody>
+                            <% let i=1; data.forEach((details)=> {
+                              %>
+                              <tr class="tr-<%=details.id%>">
+                                <!-- <td>
+                                  <input type="checkbox">
+                                </td> -->
+                                <td>
+                                  <%=i%>
+                                </td>
+                                <td>
+                                  <%=details.company_name%>
+                                </td>
+                                <td>
+                                  <%=details.place_name%>
+                                </td>
+                                <td>
+                                  <%=details.job_board_name%>
+                                </td>
+                                <td class="text-primary">
+                                  <%
+                                  let status;
+                                    if(!details.inactive_name){
+                                      status = 'Inactive';
+                                    }else{
+                                      status = 'Active';
+                                    }
+                                  %>
+                                  <button class="btn btn-outline-danger" id="<%=i%>" status="<%=(status.toLowerCase())%>" companyname="<%=details.company_name%>" title="Remove From List" onclick="inactiveFromSearch(this.id)">
+                                    <%=status%>
+                                  </button>
+                                </td>
+                              </tr>
+                              <% i++; });%>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <%- include('layouts/footer') %>

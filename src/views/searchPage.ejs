@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>AI HR SEARCH</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"
+        type="text/css" />
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+        type="text/css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/style.css" rel="stylesheet" />
+    <style>
+        .input-group {
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini">
+
+    <nav class="navbar nav__main navbar-expand-lg">
+        <a href="/" style="text-decoration:none;" class="navbar-brand">
+            <div class="page-header">
+                <h3 style="color:#00398e">AI HR SEARCH</h3>
+            </div>
+        </a>
+        <a href="/logout" style="font-size:15px! important;padding-left:73%">
+            Logout
+        </a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
+		    <span class="navbar-toggler-icon"></span>
+		 </button>
+        <!-- <div class="collapse navbar-collapse" id="navb">
+		    <form class="form-inline ml-auto">		      
+		      <div class="input-group mb-3">
+			    <input type="text" class="form-control" placeholder="Type here..">
+			    <div class="input-group-append">
+			      <button class="btn btn-success my-2 my-sm-0" type="button">Search</button>
+			    </div>
+			  </div>
+		    </form>
+		 </div> -->
+    </nav>
+
+
+    <div class="wrapper">
+    	<div class="content">	        
+	    	<div class="container-fluid pf-cont">
+		        <div class="row no-gutters">
+		            <div class="col-sm-3" id="border-right">
+		            	<div class="left__panel">
+			                <div class="company_information">
+			                    <h5 class="company_name">Company Name : <%= company_name%></h5>
+			                    <h6 class="company_name">Company Location : <%= company_location%></h6>
+                                <h6 class='resume_found'></h6>
+                                
+			                </div>
+			                <div class="hr__list">
+				                <div class="hr_title">
+				                	<div class='card-title'><b style='color:#007bff'>HR Found : <span class='hr_found'></span></b></div><hr/>
+				                </div>
+				                <div class="hr_detail_list">
+				                	<div class="hr_details" id="hr_details"> 
+				            		</div>
+				                	<div class="hr_details" id="hr_details2"> 
+				            		</div>
+				            	</div>
+			            	</div>
+		            	</div>
+		            </div>
+		            <div class="col-sm-9">
+		            	<div class="top__heading text-center">
+				            <h3>Match profile for job title : <u><%= job_title %> </u></h3>
+				        </div>
+		            	<div class="table__area py-5 px-4">
+			            	<div class="table-responsive">
+				                <table class="table table-hover">
+				                    <thead class="thead">
+				                    	
+				                    </thead>
+				                    <tbody class="tbody">
+				                    	
+										
+									</tbody>
+								</table>
+							</div>
+							<div id="demo">
+							</div>
+						</div>
+					</div>
+                    <input type="hidden" class="company_linkedin" id="jsonInput" value="">
+				</div>
+			</div>
+		</div>
+    </div>
+
+    <!-- Bootstrap core JS-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/scripts.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script> -->
+    <!-- Core theme JS-->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+
+        function hrDetails(company_name) {
+
+            $('#hr_details').html(`<img src='/loading.gif' style='margin-left:7%;margin-top:10%;width:250px'/>`);
+            var data = new FormData();
+            data.append('id', company_name);
+
+            let headers = new Headers();
+
+            headers.append('Content-Type', 'application/json');
+            headers.append('Accept', 'application/json');
+
+            headers.append('Access-Control-Allow-Origin', 'http://localhost:5000');
+
+            var config = {
+                method: 'post',
+                url: 'https://gcntechdata.com/dataexportv1/',
+                data: data
+            };
+
+            axios(config)
+                .then(function (response) {
+                    //   console.log(response.data.Response_Data.status);
+                    let arrs = response.data.Response_Data.response_bigdata;
+                    if (arrs.length > 0) {
+                        //unique email
+                        var arr = findUnique(arrs, d => d.person_email);
+
+
+                        $(".hr_title").empty();
+                        $('#hr_details').empty();
+                        $('.card').css({ height: '300px' });
+                        $('#border-right').css('border-right', ' 1px solid #00398e');
+                        
+                        
+                        $(".hr_found").html(`(Big Data : ${arr.length})`);
+                        for (let i = 0; i <= arr.length; i++) {
+                            var person_phone = "";
+                            var person_location_country = "";
+                            
+                            if (arr[i].person_phone && arr[i].person_phone != "null" && arr[i].person_phone != undefined) {
+                                var person_phone = "<div class='ul__deg'>" + arr[i].person_phone + "</div>";
+                            }
+                            if (arr[i].person_location_country && arr[i].person_location_country != 'null') {
+                                var person_location_country = "<div class='ul__deg'>" + arr[i].person_location_country + "</div>";
+                            }
+                            $("#hr_details").append(`<div id="hr_details_card">
+				                			<div class="user__list2">
+				                				<div class="ul__item">
+				                					<div class="ul__info">
+				                						<div class="ul__title__wrap">
+															<span class="ul__title"><a target="_blank" href="${arr[i].person_linkedin_url}" class="five">${(i+1)} . ${arr[i].person_name}</a></span> <span></span> <sup style="top:-3px"></sup></div>
+				                						<div class="ul__deg space_deg">${arr[i].organization_name}</div>
+                                                        <div class="ul__deg space_deg">${person_phone}</div>
+				                						<div class="ul__deg space_deg">${arr[i].person_email}</div>
+				                						<div class="ul__deg space_deg">${arr[i].person_title}</div>
+				                						<div class="ul__deg space_deg" style="color:blue">Details from BigData</div>
+				                					</div>
+				                				</div>
+				                			</div>
+				                		</div>`);
+                        }
+                    } else {
+                        $("#hr_details").html("<p style='color:blue'>There is no data available on BIGDATA</p>");
+                    }
+                }).catch(function (error) {
+                        //$("#hr_details").html("<p style='color:blue'>API Error found</p>");
+                });
+            return;
+        }
+        function findUnique(arr, predicate) {
+            // alert(predicate)
+        var found = {};
+        arr.forEach(d => {
+            found[predicate(d)] = d;
+        });
+        return Object.keys(found).map(key => found[key]); 
+        }
+        function companyLinkedin(company_name){
+            let headers = new Headers();
+
+            headers.append('Content-Type', 'application/json');
+            headers.append('Accept', 'application/json');
+
+            headers.append('Access-Control-Allow-Origin', 'http://localhost:5000');
+
+            var config = {
+                method: 'post',
+                headers: { 
+                    'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoidXRzYWJEdXR0YSJ9.52MSVGPtI1G6qb1fNiNhrhWdSBbiK-1pRAyNEteJH5Y', 
+                    'company_name': company_name
+                },
+                url: 'https://api.gcntechdata.com/get_linkedIn_company_name'
+            };
+
+            axios(config)
+                .then(function (response) {
+                    console.log('linkedin',response.data);
+                    window.company_linkedin_url = response.data;
+                    let linkedinArray = {"company_name": company_name,"company_linkedin_url":response.data };
+                    $('.company_linkedin').val(`${JSON.stringify(linkedinArray)}`);
+                    
+                }).catch(function (error) {
+                    console.log(error.response.status);
+                    $('.tbody').html(`<h5>There is no data available</h5>`);
+                });
+            return;
+        }
+   
+        function cvDetails(company_name) {
+
+            $('.tbody').html(`<img src='/loading.gif' style='margin-left: 37%;margin-top: 18%;width: 250px;'/>`);
+
+            var job_title = "<%= job_title%>";
+            var data = new FormData();
+            data.append('id', company_name);
+
+            let headers = new Headers();
+
+            headers.append('Content-Type', 'application/json');
+            headers.append('Accept', 'application/json');
+
+            headers.append('Access-Control-Allow-Origin', 'http://localhost:5000');
+
+            var config = {
+                method: 'post',
+                headers: { 
+                    'Authorization': ' eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoidXRzYWJEdXR0YSJ9.52MSVGPtI1G6qb1fNiNhrhWdSBbiK-1pRAyNEteJH5Y', 
+                    'job_title': job_title
+                },
+                url: 'https://api.gcntechdata.com/candidate_details_against_job_title',
+                data: data
+            };
+
+            axios(config)
+                .then(function (response) {
+                    console.log(response.status);
+                    const arr = response.data;
+                    window.value = arr;
+                    $(".thead").append(`<tr>
+				                    		<th>Sl.No</th>
+				                    		<th>Name</th>
+				                    		<th>Email</th>
+				                    		<th>Phone</th>
+				                    		<th>Download Resume</th>
+				                    	</tr>`);
+
+                    $('.tbody').empty();
+                    var data = arr.data;
+                    console.log({ 'data': arr.data });
+                    
+                    $(".resume_found").html(`Resume Found : ${data.length}`);
+                    for (var i = 0; i < data.length; i++) {
+                            $(".tbody").append(`<tr>
+                                            <td>${(i+1)}</td>
+				                    		<td>${data[i].First_Name} ${data[i].Last_Name}</td>
+				                    		<td>${data[i].Email}</td>
+				                    		<td>${data[i].Phone}</td>
+				                    		<td><a href="${data[i].Resume_pdf}" target="_blank"><button class="btn btn-primary" style="padding: 0.25rem 0.40rem! important">Download/View</button></a></td>
+				                    	</tr>`);
+                    }
+                }).catch(function (error) {
+                    console.log(error.response.status);
+                    $('.tbody').html(`<h5>There is no data available</h5>`);
+                });
+            return;
+        }
+        
+        // $('#hr_details2').empty();
+        companyLinkedin("<%= company_name %>");
+        hrDetails("<%= company_name %>");
+        cvDetails("<%= job_title %>");
+        let interval = setInterval(function(){ 
+            $("#hr_details2").empty()
+            let link = window.company_linkedin_url;
+            //let link = 'https://www.linkedin.com/company/staffmark';
+            var data = new FormData();
+            data.append('company_profile_link', link);
+            let headers = new Headers();
+            headers.append('Content-Type', 'application/json');
+            headers.append('Accept', 'application/json');
+            headers.append('Access-Control-Allow-Origin', 'http://localhost:5000');
+
+            var config = {
+                method: 'post',
+                url: '/api/get/data',
+                data: data
+            };
+
+            axios(config)
+                .then(function (response) {
+                    var jsonData = response.data.data;
+                    // if(jsonData.length < 1){
+                    //     clearInterval(interval)
+                    // }
+                     console.log('timeout',jsonData)
+                    // return;
+                    // let jsonData = JSON.parse(response.data.results2[0]['connection_details']);
+                    
+                    var contact_linkedin_link = [];
+                    var cnt = 1;
+                    $(".hr_found").html(`(Linkedin Data : ${jsonData.length})`);
+                    jsonData.forEach((details, i) => {
+                     if(details.profile_url == '' || details.profile_url.length < 5){
+                         console.log('profile_url',details.profile_url)
+                        return;
+                     }
+                    contact_linkedin_link.push(jsonData[i].profile_url);
+                    $("#hr_details2").append(`<div id="hr_details_card">
+				                			<div class="user__list2">
+				                				<div class="ul__item">
+				                					<div class="ul__info">
+				                						<div class="ul__title__wrap">
+															<span class="ul__title"><a target="_blank" href="${jsonData[i].profile_url}" class="five">${(cnt++)} . ${jsonData[i].name}</a></span> <span></span> <sup style="top:-3px"></sup></div>
+				                						<div class="ul__deg space_deg">${jsonData[i].place}</div>
+                                                        <div class='contact_email_${(cnt-1)}'></div>
+				                						<div class="ul__deg space_deg">${jsonData[i].job_title}</div>
+				                						<div class="ul__deg space_deg" style="color:blue">Details from Linkedin</div>
+				                					</div>
+				                				</div>
+				                			</div>
+				                		</div>`);
+                                    });
+                                    
+                    contact_linkedin_email(contact_linkedin_link);
+                });
+
+         }, 10000);
+
+
+
+function contact_linkedin_email(arr){
+    var bb  = {"data":arr};
+    let headers = new Headers();
+
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+
+    headers.append('Access-Control-Allow-Origin', 'http://localhost:5000');
+    headers.append('Authorization', 'Token 1f39f9f8ce3ba7f6705702964944128d07b7fa3e');
+    
+    var config = {
+      method: 'post',
+      url: 'https://gcntechdata.com/searchemailv1',
+      headers: { 
+        'Authorization': 'Token 1f39f9f8ce3ba7f6705702964944128d07b7fa3e', 
+        'Content-Type': 'application/json'
+      },
+      data : JSON.stringify(bb)
+    };
+    
+    axios(config)
+    .then(function (resultData) {
+        // var resultData = JSON.parse(resultData);
+        console.log('resultData',resultData.data.Response_Data);
+            var vb = resultData.data.Response_Data;
+            
+            vb.forEach((details,i) => {
+                if(details.status == "false"){
+                    return;
+                }
+        console.log('resultData1',details.email[0].email);
+                var bb = details.email[0].email+" (Snov.io)";
+                    $('.contact_email_'+(i+1)).html(bb);
+            });
+    });
+}
+    </script>
+</body>
+
+</html>
